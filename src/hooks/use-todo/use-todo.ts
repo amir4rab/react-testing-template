@@ -13,13 +13,14 @@ import Fuse, { type FuseResult } from "fuse.js";
 const DB_KEY = "todo-database-v0.0.1";
 
 // Internal Types
+type IndexTodo = Todo & { index: number };
+
 type Item = {
   create: (item: Todo) => boolean;
+  update: (item: IndexTodo) => boolean;
   delete: (index: number) => boolean;
   clear: () => boolean;
 };
-
-type IndexTodo = Todo & { index: number };
 
 type TodoHookResults = {
   items: IndexTodo[];
@@ -109,6 +110,60 @@ const useTodo = (): TodoHookResults => {
     }
   }, []);
 
+  /** Updates an existing item in the database */
+  const updateItem = useCallback<Item["update"]>((item) => {
+    try {
+      setItems((curr) => {
+        // Checking if the new id matches to the existing id
+        if (curr[item.index].id !== item.id)
+          throw new Error(
+            `Item id doesn't match to the existing item, existing id: ${
+              curr[item.index].id
+            }, new id: ${item.id}`
+          );
+
+        // Updating the updated item
+        curr[item.index] = item;
+
+        // storing two versions of the items
+        const copiedIndexedItems: IndexTodo[] = []; // For setting to the items state
+        const copiedItems: Todo[] = []; // For passing to local store
+
+        // Lopping throw the items and copping them
+        curr.forEach(
+          ({ creationDate, id, index, state, tags, title, description }) => {
+            copiedIndexedItems.push({
+              creationDate,
+              id,
+              index,
+              state,
+              tags,
+              title,
+              description,
+            });
+
+            copiedItems.push({
+              creationDate,
+              id,
+              state,
+              tags,
+              title,
+              description,
+            });
+          }
+        );
+
+        localStore().store(DB_KEY, { data: copiedItems });
+
+        return copiedIndexedItems;
+      });
+      return true;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  }, []);
+
   /** Delete the desired item by passing it's index */
   const deleteItem = useCallback<Item["delete"]>((index) => {
     try {
@@ -189,10 +244,11 @@ const useTodo = (): TodoHookResults => {
   const db = useCallback<() => Item>(
     () => ({
       create: createItem,
+      update: updateItem,
       delete: deleteItem,
       clear: clearItems,
     }),
-    [createItem, deleteItem, clearItems]
+    [createItem, updateItem, deleteItem, clearItems]
   );
 
   //--- Search Action ---//

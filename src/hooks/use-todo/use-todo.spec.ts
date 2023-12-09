@@ -13,6 +13,15 @@ import localStorageMock from "../../__test__/mocks/localStorage";
 // useTodo
 import useTodo from "./use-todo";
 
+// Mocking Data
+const mockingTitles = [
+  "Todays tasks",
+  "Uni exams",
+  "Updating Portfolio",
+  "Emailing the application committee",
+  "Shopping groceries",
+];
+
 describe("useTodo", () => {
   beforeEach(() => {
     // Setting Mocked localStorage
@@ -92,33 +101,65 @@ describe("useTodo", () => {
   test("Searching throw the items", () => {
     const { result } = renderHook(() => useTodo());
 
-    const titles = [
-      "Todays tasks",
-      "Uni exams",
-      "Updating Portfolio",
-      "Emailing the application committee",
-      "Shopping groceries",
-    ];
-
-    // Adding 5 items
+    // Adding items
     act(() => {
-      for (let i = 0; i <= 10; i++) {
+      mockingTitles.forEach((title) => {
         result.current.db().create({
           creationDate: "",
           id: randomUUID(),
-          state: "completed",
+          state: "pending",
           tags: [],
-          title: titles[i],
+          title,
           description: "",
         });
-      }
+      });
     });
 
     // Checking if the first results matches the query
     act(() => {
       const searchResults = result.current.search("Shopping");
 
-      expect(searchResults[0].item.title).toBe(titles[4]);
+      expect(searchResults[0].item.title).toBe(mockingTitles[4]);
+    });
+
+    // Clearing the Database
+    act(() => {
+      result.current.db().clear();
+    });
+  });
+
+  test("Updating an existing item", () => {
+    const { result } = renderHook(() => useTodo());
+
+    // Adding items
+    act(() => {
+      mockingTitles.forEach((title) => {
+        result.current.db().create({
+          creationDate: "",
+          id: randomUUID(),
+          state: "pending",
+          tags: [],
+          title,
+          description: "",
+        });
+      });
+    });
+
+    // Updating the first item of the todo list
+    act(() => {
+      const item = result.current.items[0];
+      item.title = "Updated title";
+      item.state = "completed";
+
+      result.current.db().update(item);
+    });
+
+    expect(result.current.items[0].title).toBe("Updated title");
+    expect(result.current.items[0].state).toBe("completed");
+
+    // Clearing the Database
+    act(() => {
+      result.current.db().clear();
     });
   });
 });
