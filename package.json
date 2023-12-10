@@ -1,8 +1,14 @@
 {
   "name": "react-testing-template",
+  "description": "A Template for testing your react applications",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "type": "module",
+  "homepage": "https://github.com/amir4rab/react-testing-template#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/amir4rab/react-testing-template.git"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
