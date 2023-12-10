@@ -15,12 +15,12 @@ import { TrashIcon, ArchiveBoxIcon } from "@heroicons/react/24/solid";
 export interface ItemProps extends Todo {
   selectedTag?: string;
   setSelectedTag?: Dispatch<SetStateAction<string>>;
-  onComplete?: (id: string) => void;
-  onDelete?: (id: string) => void;
+  onComplete?: () => void;
+  onDelete?: () => void;
 }
 
 const TodoItem = ({
-  id,
+  state,
   tags,
   title,
   description,
@@ -56,9 +56,22 @@ const TodoItem = ({
 
   return (
     <li
+      data-completed={state === "completed"}
       onPointerEnter={onPointer.bind(null, "visible", undefined)}
       onPointerLeave={onPointer.bind(null, "hidden", undefined)}
-      className="p-6 rounded-3xl border border-neutral-200 relative md:bg-neutral-50 max-w-full overflow-hidden md:overflow-visible"
+      className={[
+        "p-6",
+        "rounded-3xl",
+        "border",
+        "border-neutral-200",
+        "relative",
+        "md:bg-neutral-50",
+        "max-w-full",
+        "overflow-hidden",
+        "md:overflow-visible",
+        "data-[completed=true]:border-transparent",
+        "data-[completed=true]:bg-primary-50",
+      ].join(" ")}
     >
       <div className="flex md:justify-between md:flex-row flex-col items-center justify-start mb-2">
         <p className="text-lg font-normal my-0 mr-auto mb-2 md:mb-0">{title}</p>
@@ -136,15 +149,16 @@ const TodoItem = ({
         ].join(" ")}
       >
         <button
-          onClick={onComplete?.bind(null, id)}
+          onClick={onDelete}
           className="p-2 rounded-3xl bg-red-200/25 hover:bg-red-200 transition-colors duration-150"
         >
           <span className="hidden">Delete</span>
           <TrashIcon className="w-4 h-4" />
         </button>
         <button
-          onClick={onDelete?.bind(null, id)}
-          className="p-2 rounded-3xl bg-green-200/25 hover:bg-green-200 transition-colors duration-150"
+          disabled={state === "completed"}
+          onClick={onComplete}
+          className="p-2 rounded-3xl bg-neutral-100/25 hover:bg-neutral-100 transition-colors duration-150 disabled:opacity-50"
         >
           <span className="hidden">Complete</span>
           <ArchiveBoxIcon className="w-4 h-4" />
