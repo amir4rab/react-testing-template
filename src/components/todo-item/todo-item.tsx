@@ -149,6 +149,7 @@ const TodoItem = ({
         ].join(" ")}
       >
         <button
+          data-testid="task-delete"
           onClick={onDelete}
           className="p-2 rounded-3xl bg-red-200/25 hover:bg-red-200 transition-colors duration-150"
         >
@@ -156,6 +157,7 @@ const TodoItem = ({
           <TrashIcon className="w-4 h-4" />
         </button>
         <button
+          data-testid="task-complete"
           disabled={state === "completed"}
           onClick={onComplete}
           className="p-2 rounded-3xl bg-neutral-100/25 hover:bg-neutral-100 transition-colors duration-150 disabled:opacity-50"
