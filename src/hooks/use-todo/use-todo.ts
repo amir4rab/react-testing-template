@@ -13,7 +13,7 @@ import Fuse, { type FuseResult } from "fuse.js";
 const DB_KEY = "todo-database-v0.0.1";
 
 // Internal Types
-type IndexTodo = Todo & { index: number };
+export type IndexTodo = Todo & { index: number };
 
 type Item = {
   create: (item: Todo) => boolean;
@@ -22,7 +22,7 @@ type Item = {
   clear: () => boolean;
 };
 
-type TodoHookResults = {
+export type UseTodoHookResults = {
   items: IndexTodo[];
   loading: boolean;
   db: () => Item;
@@ -56,9 +56,9 @@ type TodoHookResults = {
  * // Clearing the whole database
  * todo.db().clear();
  */
-const useTodo = (): TodoHookResults => {
+const useTodo = (): UseTodoHookResults => {
   const [loading, setLoading] = useState(true);
-  const [items, setItems] = useState<TodoHookResults["items"]>([]);
+  const [items, setItems] = useState<UseTodoHookResults["items"]>([]);
 
   //--- Database Actions ---//
   /** Creates a new item and add it to the database */
@@ -69,26 +69,18 @@ const useTodo = (): TodoHookResults => {
         const index = curr.length;
 
         // updating the array
-        curr.push({
-          index,
-          ...copiedItem,
-        });
-        const copiedItems: TodoHookResults["items"] = [];
+        const copiedItems: UseTodoHookResults["items"] = [
+          ...curr,
+          {
+            index,
+            ...copiedItem,
+          },
+        ];
 
         // storing new items in database and creating a copied array
         localStore().store(DB_KEY, {
-          data: curr.map(
-            ({ creationDate, id, state, tags, title, description, index }) => {
-              copiedItems.push({
-                creationDate,
-                id,
-                state,
-                tags,
-                title,
-                description,
-                index,
-              });
-
+          data: copiedItems.map(
+            ({ creationDate, id, state, tags, title, description }) => {
               return {
                 creationDate,
                 id,
@@ -171,7 +163,7 @@ const useTodo = (): TodoHookResults => {
         const slicingPointStart = index > 1 ? index - 1 : index;
         const slicingPointEnd = index < curr.length ? index + 1 : index;
 
-        const copiedItems: TodoHookResults["items"] = [];
+        const copiedItems: UseTodoHookResults["items"] = [];
         const copiedItemsForStore: Todo[] = [];
 
         // Storing the first slice of array
@@ -253,7 +245,7 @@ const useTodo = (): TodoHookResults => {
 
   //--- Search Action ---//
   /** Searches throw the database with fuse.js */
-  const search = useCallback<TodoHookResults["search"]>(
+  const search = useCallback<UseTodoHookResults["search"]>(
     (query) => {
       const fuse = new Fuse(items, {
         includeScore: true,
