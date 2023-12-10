@@ -12,8 +12,17 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/__test__/setup.ts",
     css: true,
+    reporters: ["default", "json"],
+    outputFile: "./reports/test-summery.json",
 
-    // Limiting the scope of vitest to `src` directory
+    // Limiting the scope of Vitest to `src` directory
     include: ["src/**/*.spec.tsx"],
+
+    coverage: {
+      provider: "v8",
+      include: ["src/**/*"],
+      reporter: ["text", "json-summary"],
+      reportsDirectory: "./reports/",
+    },
   },
 });

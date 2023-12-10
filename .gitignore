@@ -23,6 +23,10 @@ dist-ssr
 *.sln
 *.sw?
 
+# Vitest
+/coverage/
+/reports/
+
 # Playwright files and logs
 /test-results/
 /playwright-report/
