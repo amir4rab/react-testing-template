@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react";
 
 // Types
-import { Todo } from "../../types";
+import type { Todo } from "../../types";
 
 // Konj UI
 import { AnchoredDialog } from "@konj-org/react-ui";
@@ -14,13 +14,18 @@ import TodoItem from "../todo-item";
 import TodoInput from "../todo-input";
 
 // Hooks
-import useTodo, { IndexTodo, UseTodoHookResults } from "../../hooks/use-todo";
+import useTodo, {
+  type IndexTodo,
+  type UseTodoHookResults,
+} from "../../hooks/use-todo";
 
 // Stylings
 const buttonClassName = [
   "disabled:cursor-default",
   "disabled:opacity-50",
   "disabled:border-transparent",
+  "disabled:pointer-events-none",
+  "select-none",
   "flex",
   "rounded-xl",
   "justify-center",
@@ -28,8 +33,8 @@ const buttonClassName = [
   "text-sm",
   "gap-1",
   "bg-white",
-  "hover:not(:disabled):bg-neutral-50",
-  "active:not(:disabled):bg-neutral-100",
+  "hover:bg-neutral-50",
+  "active:bg-neutral-100",
   "border-neutral-300",
   "border",
   "transition-colors",
@@ -71,9 +76,33 @@ const GroupedTask = ({
         ))}
       </ol>
       {tasks.length === 0 && (
-        <p className="my-8 text-center max-w-[70%] mx-auto opacity-50 font-mono text-sm">
-          There are no "{title}" task
-        </p>
+        <div className="flex justify-center">
+          <p
+            className={[
+              "cursor-default",
+              "select-none",
+              "my-8",
+              "text-center",
+              "inline",
+              "mx-auto",
+              "opacity-50",
+              "font-mono",
+              "text-sm",
+              "px-6",
+              "py-2",
+              "rounded-2xl",
+              "bg-neutral-100",
+              "border",
+              "border-neutral-400",
+              "transition-colors",
+              "duration-200",
+              "hover:bg-transparent",
+              "hover:border-transparent",
+            ].join(" ")}
+          >
+            There are no "{title}" task
+          </p>
+        </div>
       )}
     </section>
   );

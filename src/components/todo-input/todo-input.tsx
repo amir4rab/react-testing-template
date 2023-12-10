@@ -1,4 +1,4 @@
-import { FormEventHandler, useCallback, useRef } from "react";
+import { type FormEventHandler, useCallback, useRef } from "react";
 
 // Types
 import type { UUID } from "node:crypto";
@@ -127,12 +127,13 @@ const TodoInput = ({ data = defaultData, onSubmit }: TodoInputProps) => {
         <button
           ref={buttonRef}
           className={[
-            "bg-primary-200/25",
-            "hover:bg-primary-200/50",
+            "bg-primary-200/50",
+            "hover:bg-primary-200",
             "active:bg-primary-200",
+            "text-sm",
             "px-4",
             "py-1",
-            "rounded-3xl",
+            "rounded-lg",
             "border",
             "border-primary-300/50",
             "duration-150",
