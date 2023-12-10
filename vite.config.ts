@@ -12,5 +12,8 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/__test__/setup.ts",
     css: true,
+
+    // Limiting the scope of vitest to `src` directory
+    include: ["src/**/*.spec.tsx"],
   },
 });
