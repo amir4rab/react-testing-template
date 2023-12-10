@@ -5,8 +5,8 @@ const mockingData = {
   description: "Here is the description of the todo task",
 };
 
-/** `playwright-report/screenshots/` */
-const SCREENSHOTS_PATH = "playwright-report/screenshots/";
+/** `playwright-report/` */
+const SCREENSHOTS_PATH = "playwright-report/";
 
 test("Task management test.", async ({ page, browserName }) => {
   await page.goto("/");
