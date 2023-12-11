@@ -1,0 +1,45 @@
+name: Vitest tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  installing-dependencies:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install -g pnpm && pnpm install
+
+  coverage-testing:
+    needs: installing-dependencies
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Running the coverage tests
+        run: pnpm run test:coverage
+
+  unit-testing:
+    needs: installing-dependencies
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Running the coverage tests
+        run: pnpm run test
