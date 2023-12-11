@@ -29,6 +29,9 @@ jobs:
         with:
           node-version: 20
 
+      - name: Install PNPM
+        run: npm install -g pnpm
+
       - name: Running the coverage tests
         run: pnpm run test:coverage
 
@@ -40,6 +43,9 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 20
+
+      - name: Install PNPM
+        run: npm install -g pnpm
 
       - name: Running the coverage tests
         run: pnpm run test
