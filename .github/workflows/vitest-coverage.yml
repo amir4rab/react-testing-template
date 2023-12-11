@@ -22,3 +22,6 @@ jobs:
 
       - name: Running the coverage tests
         run: pnpm run test:coverage
+
+      - name: Loging the results
+        run: node ./scripts/log-coverage.js

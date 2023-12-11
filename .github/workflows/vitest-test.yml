@@ -22,3 +22,6 @@ jobs:
 
       - name: Running the Vitest tests
         run: pnpm run test
+
+      - name: Loging the results
+        run: node ./scripts/log-summery.js
