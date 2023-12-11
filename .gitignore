@@ -26,6 +26,7 @@ dist-ssr
 # Vitest
 /coverage/
 /reports/
+/action-summary/
 
 # Playwright files and logs
 /test-results/

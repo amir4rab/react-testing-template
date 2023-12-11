@@ -23,5 +23,8 @@ jobs:
       - name: Running the Vitest tests
         run: pnpm run test
 
-      - name: Loging the results
+      - name: Generating the summary
         run: node ./scripts/log-summery.js
+
+      - name: Exporting the summary
+        run: cat ./action-summery/summery.md >> $GITHUB_STEP_SUMMARY

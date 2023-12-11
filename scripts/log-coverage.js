@@ -1,11 +1,25 @@
-import { existsSync, readFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  appendFileSync,
+  rmSync,
+} from "node:fs";
 import { resolve } from "node:path";
 import { cwd } from "node:process";
 
 const log = () => {
   const filepath = resolve(cwd(), "reports", "coverage-summary.json");
-
   if (!existsSync(filepath)) throw new Error("Report file doesn't exits");
+
+  const outputDir = resolve(cwd(), "action-summary");
+  if (!existsSync(outputDir)) mkdirSync(outputDir);
+
+  const summaryFile = resolve(outputDir, "summary.md");
+  if (existsSync(summaryFile)) rmSync(summaryFile);
+
+  writeFileSync(summaryFile, "## **Test Results :rocket:** \n\n");
 
   const fileContent = readFileSync(filepath, "utf-8");
   /** @type {import('./types').TestCoverage} */
@@ -13,14 +27,14 @@ const log = () => {
 
   const files = Object.keys(coverage);
   files.forEach((file, i) => {
-    console.log(file.replace(cwd(), ""));
+    appendFileSync(summaryFile, `### ${file.replace(cwd(), "")}\n`);
 
     const items = Object.keys(coverage[file]);
     items.forEach((item) =>
-      console.log(`  - ${item}: ${coverage[file][item].pct}%`)
+      appendFileSync(summaryFile, `  - ${item}: ${coverage[file][item].pct}%\n`)
     );
 
-    i + 1 !== files.length && console.log("\n");
+    i + 1 !== files.length && appendFileSync(summaryFile, "\n");
   });
 };
 

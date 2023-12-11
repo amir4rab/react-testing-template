@@ -1,11 +1,23 @@
-import { existsSync, readFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+  appendFileSync,
+  rmSync,
+} from "node:fs";
 import { resolve } from "node:path";
 import { cwd } from "node:process";
 
 const log = () => {
   const filepath = resolve(cwd(), "reports", "test-summery.json");
-
   if (!existsSync(filepath)) throw new Error("Report file doesn't exits");
+
+  const outputDir = resolve(cwd(), "action-summary");
+  if (!existsSync(outputDir)) mkdirSync(outputDir);
+
+  const summaryFile = resolve(outputDir, "summary.md");
+  if (existsSync(summaryFile)) rmSync(summaryFile);
 
   const fileContent = readFileSync(filepath, "utf-8");
   /** @type {import('./types').TestSummery} */
@@ -17,24 +29,28 @@ const log = () => {
     testResults,
   } = JSON.parse(fileContent);
 
-  success && console.log(`The test were executed Successfully`);
-
-  console.log(
-    `Passed ${numPassedTests} of ${numTotalTests} while failing ${numFailedTests}\n`
+  writeFileSync(summaryFile, "## **Test Results :rocket:** \n");
+  appendFileSync(
+    summaryFile,
+    `### Passed ${numPassedTests} of ${numTotalTests} while failing ${numFailedTests}\n\n`
   );
 
   testResults.forEach(({ name, assertionResults, status }, index) => {
     const cleanedName = name.replace(cwd(), "");
 
-    console.log(
-      `${cleanedName} ${status === "passed" ? ":white_check_mark:" : ":x:"}`
+    appendFileSync(
+      summaryFile,
+      `### ${cleanedName} ${
+        status === "passed" ? ":white_check_mark:" : ":x:"
+      }\n`
     );
     assertionResults.forEach(({ fullName, status }) => {
-      console.log(
-        `  -${fullName} ${status === "passed" ? ":white_check_mark:" : ":x:"}`
+      appendFileSync(
+        summaryFile,
+        `  -${fullName} ${status === "passed" ? ":white_check_mark:" : ":x:"}\n`
       );
     });
-    index + 1 !== testResults.length && console.log("\n");
+    index + 1 !== testResults.length && appendFileSync(summaryFile, "\n");
   });
 };
 
