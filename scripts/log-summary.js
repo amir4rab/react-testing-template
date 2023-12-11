@@ -35,6 +35,14 @@ const log = () => {
     `### Passed ${numPassedTests} of ${numTotalTests} while failing ${numFailedTests}\n\n`
   );
 
+  console.log(
+    `::notice title=Tests Summery::Passed ${numPassedTests} of ${numTotalTests} ${
+      numFailedTests !== 0
+        ? "while failing " + numFailedTests + " tests"
+        : "tests :rocket:"
+    }`
+  );
+
   testResults.forEach(({ name, assertionResults, status }, index) => {
     const cleanedName = name.replace(cwd(), "");
 

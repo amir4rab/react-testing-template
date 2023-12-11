@@ -25,6 +25,10 @@ const log = () => {
   /** @type {import('./types').TestCoverage} */
   const coverage = JSON.parse(fileContent);
 
+  console.log(
+    `::notice title=Coverage Summary::${coverage["total"]["lines"].pct}% of lines and ${coverage["total"]["functions"].pct}% of functions are covered.`
+  );
+
   const files = Object.keys(coverage);
   files.forEach((file, i) => {
     appendFileSync(summaryFile, `### ${file.replace(cwd(), "")}\n`);
