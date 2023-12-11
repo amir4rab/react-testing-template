@@ -27,4 +27,4 @@ jobs:
         run: node ./scripts/log-coverage.js
 
       - name: Exporting the summary
-        run: cat ./action-summery/summery.md >> $GITHUB_STEP_SUMMARY
+        run: cat ./action-summary/summary.md >> $GITHUB_STEP_SUMMARY

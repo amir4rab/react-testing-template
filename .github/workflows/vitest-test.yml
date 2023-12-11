@@ -24,7 +24,7 @@ jobs:
         run: pnpm run test
 
       - name: Generating the summary
-        run: node ./scripts/log-summery.js
+        run: node ./scripts/log-summary.js
 
       - name: Exporting the summary
-        run: cat ./action-summery/summery.md >> $GITHUB_STEP_SUMMARY
+        run: cat ./action-summary/summary.md >> $GITHUB_STEP_SUMMARY
