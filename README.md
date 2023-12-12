@@ -11,7 +11,8 @@ This is a simple template for adding testing to your Vite-powered React Applicat
 
 ### Installation
 
-> [!IMPORTANT] The following command is using PNPM, please make sure your project manager is set to PNPM, otherwise modify the commands to use NPM.
+> [!IMPORTANT]
+> The following command is using PNPM, please make sure your project manager is set to PNPM, otherwise modify the commands to use NPM.
 
 ```bash
 pnpm add -D vitest jsdom @testing-library/jest-dom @testing-library/react
@@ -94,7 +95,8 @@ keep in mind that incase you want to copy these automation scripts, you also hav
 
 ### Installation
 
-> [!IMPORTANT] The following command is using PNPM, please make sure your project manager is set to PNPM, otherwise modify the commands to use NPM.
+> [!IMPORTANT] 
+> The following command is using PNPM, please make sure your project manager is set to PNPM, otherwise modify the commands to use NPM.
 
 Run the following command and complete the process with the setup wizard.
 
@@ -140,7 +142,8 @@ Lastly, check your `package.json` to see if the following script has been added 
 
 ### Usage
 
-> [!CAUTION] Since you need to download some additional binaries to execute these tests, personally, I don't recommend running these tests on your system, at least set up a VM to execute them.
+> [!CAUTION]
+> Since you need to download some additional binaries to execute these tests, personally, I don't recommend running these tests on your system, at least set up a VM to execute them.
 
 Here is how to use the added command
 
@@ -148,7 +151,8 @@ Here is how to use the added command
 | ---------- | ---------------------- |
 | `test:e2e` | Executes the e2e tests |
 
-> [!NOTICE] You need to run the following commands before being able to run the test command:
+> [!NOTICE]
+> You need to run the following commands before being able to run the test command:
 >
 > 1. Installing additional Playwright dependencies:
 >
