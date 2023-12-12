@@ -151,7 +151,7 @@ Here is how to use the added command
 | ---------- | ---------------------- |
 | `test:e2e` | Executes the e2e tests |
 
-> [!NOTICE]
+> [!NOTE]
 > You need to run the following commands before being able to run the test command:
 >
 > 1. Installing additional Playwright dependencies:
