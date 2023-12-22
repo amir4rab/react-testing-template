@@ -16,7 +16,7 @@ export default defineConfig({
     outputFile: "./reports/test-summery.json",
 
     // Limiting the scope of Vitest to `src` directory
-    include: ["src/**/*.spec.tsx"],
+    include: ["src/**/*.spec.tsx", "src/**/*.spec.ts"],
 
     coverage: {
       provider: "v8",

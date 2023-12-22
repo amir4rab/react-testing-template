@@ -39,7 +39,7 @@ const log = () => {
     `::notice title=Tests Summery::Passed ${numPassedTests} of ${numTotalTests} ${
       numFailedTests !== 0
         ? "while failing " + numFailedTests + " tests"
-        : "tests :rocket:"
+        : "tests"
     }`
   );
 
