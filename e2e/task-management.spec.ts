@@ -6,7 +6,7 @@ const mockingData = {
 };
 
 /** `playwright-report/` */
-const SCREENSHOTS_PATH = "playwright-report/screenshots";
+const SCREENSHOTS_PATH = "playwright-report/screenshots/";
 
 test("Task management test.", async ({ page, browserName }) => {
   await page.goto("/");
@@ -59,7 +59,7 @@ test("Task management test.", async ({ page, browserName }) => {
   await page.screenshot({
     path:
       SCREENSHOTS_PATH +
-      "/task-management-completed-tasks-" +
+      "task-management-completed-tasks-" +
       browserName +
       ".png",
     fullPage: true,
